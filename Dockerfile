@@ -6,7 +6,11 @@ FROM python:3.14-slim-trixie
 # libgl1          -> OpenCV runtime (opencv-python is not the headless wheel)
 # libglib2.0-0t64 -> glib runtime required by OpenCV
 # libgomp1        -> OpenMP, used by torch and OpenVINO
-RUN DEBIAN_FRONTEND=noninteractive apt-get update \
+# ENV (not a per-command prefix) so it covers every command in the layer: a
+# `VAR=value cmd` prefix would only apply to apt-get update, leaving apt-get
+# install to fall back to the Dialog/Readline debconf frontends and print noise.
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
   && apt-get install -y --no-install-recommends \
        ffmpeg \
        libgl1 \
