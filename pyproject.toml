@@ -1,0 +1,37 @@
+[project]
+name = "clearcam"
+version = "0.2.0"
+description = "Detect persons/animals in videos (YOLO / OpenVINO); annotate, trim, or delete in place"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "opencv-python>=5.0.0.93",
+    "openvino>=2025.1",
+    # torch/torchvision are pulled in by ultralytics; they are declared here so the
+    # CPU-only index below applies to them (uv honours `tool.uv.sources` only for
+    # direct dependencies). This project runs on CPU and Intel iGPU (OpenVINO), so
+    # the default PyPI CUDA build would only add ~6 GB of unusable CUDA libraries.
+    "torch>=2.13",
+    "torchvision>=0.28",
+    "ultralytics>=8.4.110",
+]
+
+[project.scripts]
+clearcam = "clearcam.cli:main"
+clearcam-convert = "clearcam.convert:main"
+clearcam-benchmark = "clearcam.benchmark:main"
+
+# CPU-only PyTorch wheels: this project targets CPU and Intel iGPU (via OpenVINO),
+# so the default PyPI CUDA build would only add ~6 GB of unusable CUDA libraries.
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+torchvision = { index = "pytorch-cpu" }
+
+[build-system]
+requires = ["uv_build>=0.12.0,<0.13.0"]
+build-backend = "uv_build"

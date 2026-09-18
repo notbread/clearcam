@@ -1,0 +1,22 @@
+# Keep the build context to project metadata + sources only.
+.git
+.github
+.venv
+__pycache__/
+**/*.pyc
+
+# Runtime artifacts: weights, daily logs, lock files, video folders
+*.pt
+*_openvino_model/
+*.log
+*.pid
+src_videos/
+detected/
+no-object/
+annotate_journal.csv
+
+# Local tooling
+.idea/
+.vscode/
+.dockerignore
+Containerfile

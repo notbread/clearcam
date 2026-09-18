@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.pt
+*_openvino_model/
+no-object/
+detected/
+src_videos/
+annotate_journal.csv
+
+# Runtime artifacts (daily logs and the cron lock file)
+*.log
+*.pid
+
+# Tooling
+.idea/
+.vscode/
+*.egg-info/
+build/
+dist/
